@@ -11,7 +11,7 @@ public class three {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         System.out.print("Name(First Middle Last): ");
-        String[] read = sc.nextLine().split(" ");
+        String[] read = sc.nextLine().split("\\s+");
         System.out.println("\n" + read[2] + ", " + read[0] + " " + read[1].charAt(0) + ".");
     }
 }
