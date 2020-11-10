@@ -4,9 +4,16 @@ import java.util.Arrays;
 
 public class four {
     public static void main(String[] args) {
-        for(String s : Arrays.deepToString(a()).split("],")){
-            System.out.println(s);
+        int[][] a = a();
+        String formatted = "";
+        for (int i = 0; i < a.length; i++) {
+            StringBuilder out = new StringBuilder();
+            for (int j = 0; j < a[i].length; j++) {
+                out.append(repeat(" ", 3 - String.valueOf(a[i][j]).length()) + String.valueOf(a[i][j]));
+            }
+            formatted += out.toString() + "\n";
         }
+        System.out.println(formatted);
     }
 
     private static int[][] a() {
@@ -17,5 +24,13 @@ public class four {
             }
         }
         return twoDim;
+    }
+
+    static String repeat(String toRepeat, int times){
+        StringBuilder out = new StringBuilder();
+        for (int i = 0; i < times; i++) {
+            out.append(toRepeat);
+        }
+        return out.toString();
     }
 }
