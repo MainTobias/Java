@@ -5,7 +5,7 @@ import java.util.Arrays;
 
 public class six {
     public static void main(String[] args) {
-        System.out.println(Arrays.toString(colSums(new int[][]{new int[]{1, 2, 2, 3}, new int[]{3, 2, 5, 7}, new int[]{4, 7, 5}})));
+        System.out.println(Arrays.toString(colSums(new int[][]{new int[]{1, 2, 2, 3}, new int[]{3, 2, 5, 7,}, new int[]{4, 7, 5}})));
     }
     static long[] colSums(int[][] matrix){
         int longest = 0;
