@@ -5,7 +5,7 @@ import java.util.Random;
 
 public class QuickSort {
     public static void main(String[] args) {
-        int[] A = new int[10];
+        int[] A = new int[20];
         Random rng = new Random();
         long start, finish, timeElapsed;
         int[] copy;
@@ -27,7 +27,7 @@ public class QuickSort {
         timeElapsed = finish - start;
         System.out.println(Arrays.toString(copy) + "\nTook: " + timeElapsed);
     }
-    static int quicksort(int[] A, int lo, int hi, int count){
+    static long quicksort(int[] A, int lo, int hi, int count){
         if (lo < hi){
             int p = partition(A, lo, hi);
             count += quicksort(A, lo, p, count);
