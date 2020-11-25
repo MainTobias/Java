@@ -1,8 +1,5 @@
 package com.Kommandozeilenparameter;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class three {
     public static void main(String[] args) {
         if (args.length >= 2) {
