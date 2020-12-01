@@ -1,4 +1,4 @@
-package com.Kommandozeilenparameter;
+package com.Kommandozeilenparameter.one;
 
 public class two {
     public static void main(String[] args) {
