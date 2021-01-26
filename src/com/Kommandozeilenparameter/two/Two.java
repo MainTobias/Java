@@ -1,12 +1,15 @@
 package com.Kommandozeilenparameter.two;
 
 
-import java.lang.reflect.Array;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.*;
-import java.util.regex.Pattern;
 
+//Verbesserungen:
+//keine
+//Hinzugefügt:
+//sollte args nicht lehr sein wird es einfach ausgerechnet sonst wird input gefordert
+//alles ist selbst geschrieben bis auf getDistanceBetween funktion
 class City {
     public final String name;
     public final long id;
@@ -30,17 +33,57 @@ class City {
     }
 }
 
-public class two {
-    final static String inpPrompt = "Enter the name of your city or just the first letter: ";
-    final static String help = "If you dont see your city in the list enter 0 and make sure you spelled it correctly or add more characters.\nCity(number): ";
+public class Two {
+    private final static Object[][] cities;
+    private final static HashMap<String, Integer> citiesMap;
+    final static String inpPrompt = "Enter the name of the city you are looking for or just the first letter: ";
+    final static String help = "In case you cant find a city enter 0 and make sure you spelled it correctly or add more characters.\nCity(number): ";
     final static String userInpHelp = "You have selected a number outside of the given range or it is malformed make sure your input looks something like: 3";
 
+    static {
+        cities = new Object[][]{{"", "Wien", "Linz", "Graz", "Salzburg", "Innsbruck", "Klagenfurt"},
+                {"Wien", 0, 188, 204, 302, 468, 310},
+                {"Linz", -1, 0, 276, 125, 291, 274},
+                {"Graz", -1, -1, 0, 278, 444, 152},
+                {"Salzburg", -1, -1, -1, 0, 166, 242},
+                {"Innsbruck", -1, -1, -1, -1, 0, 326},
+                {"Klagenfurt", -1, -1, -1, -1, -1, 0},
+
+        };
+        citiesMap = new HashMap<>();
+        for (int i = 1; i < cities[0].length; i++) citiesMap.put((String) cities[0][i], i);
+    }
+
     public static void main(String[] args) {
-        System.out.println("First city");
-        City one = getCity();
-        System.out.println("Second city");
-        City two = getCity();
-        System.out.println("The distance between " + one.name + " and " + two.name + " is " + Math.round(getDistanceBetween(one, two)) + "km.");
+        int distance = 0;
+        StringBuilder out = new StringBuilder("Die Strecke von ");
+        if (args.length != 0) {
+            for (int i = 0; i < args.length; i++) {
+                for (int j = 0; j < cities[0].length; j++) {
+                    if (((String) (cities[0][j])).startsWith(args[i])) {
+                        args[i] = (String) cities[0][j];
+                    }
+                }
+            }
+            out.append(args[0]);
+            for (int i = 1; i < args.length; i++) {
+                out.append(i+1 < args.length ? " über " + args[i] : " bis " + args[i]);
+                int addDistance;
+                if((addDistance = (Integer)(cities[citiesMap.get(args[i-1])][citiesMap.get(args[i])])) > 0){
+                    distance += addDistance;
+                } else if ((addDistance = (Integer)(cities[citiesMap.get(args[i])][citiesMap.get(args[i-1])])) > 0) {
+                    distance += addDistance;
+                }
+            }
+            out.append(String.format(" beträgt %dkm.", distance));
+            System.out.println(out);
+        } else {
+            System.out.println("First city");
+            City one = getCity();
+            System.out.println("Second city");
+            City two = getCity();
+            System.out.println("The distance between " + one.name + " and " + two.name + " is " + Math.round(getDistanceBetween(one, two)) + "km.");
+        }
     }
 
 
@@ -87,7 +130,7 @@ public class two {
     static private List<City> getCities(String startsWith) {
         List<City> cities = new ArrayList<>();
         try {
-            URL url = new URL(String.format("https://nominatim.openstreetmap.org/search?city=%s&format=xml&limit=20", startsWith.charAt(0)+startsWith.substring(1).toLowerCase()));
+            URL url = new URL(String.format("https://nominatim.openstreetmap.org/search?city=%s&format=xml&limit=20", startsWith.charAt(0) + startsWith.substring(1).toLowerCase()));
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("GET");
             if (conn.getResponseCode() == 200) {
@@ -130,7 +173,8 @@ public class two {
                 } catch (Exception e) {
                     try {
                         value = Double.parseDouble(String.valueOf(value));
-                    } catch (Exception e2) {}
+                    } catch (Exception e2) {
+                    }
                 }
                 data.put(key, value);
             }

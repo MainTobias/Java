@@ -1,8 +1,9 @@
 package com.Kommandozeilenparameter.two;
 
 import java.util.Scanner;
-
-public class one {
+//Verbesserungen:
+//bei -1 keine index error mehr
+public class One {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         int m = 0;
@@ -10,6 +11,10 @@ public class one {
         System.out.print("m -> ");
         if(sc.hasNextInt()){
             m = sc.nextInt();
+            if (m<0){
+                System.out.println("Negativer index");
+                System.exit(1);
+            }
         } else {
             System.out.println("Fehler kein int");
             System.exit(1);
@@ -17,6 +22,10 @@ public class one {
         System.out.print("n -> ");
         if(sc.hasNextInt()){
             n = sc.nextInt();
+            if (n<0){
+                System.out.println("Negativer index");
+                System.exit(1);
+            }
         } else {
             System.out.println("Fehler kein int");
             System.exit(1);

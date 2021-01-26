@@ -1,6 +1,9 @@
 package com.Kommandozeilenparameter.one;
 
-public class two {
+//Verbesserungen:
+//minus und division aufgrund falscher ergebnisse entfernt
+
+public class Two {
     public static void main(String[] args) {
         if (!(args.length == 3)) {
             System.out.println("Eingabe muss z.B.: 1001101 + 1001001001 sein");
@@ -19,9 +22,8 @@ public class two {
             }
             switch (args[1]) {
                 case "+" -> System.out.printf("%s + %s = %s", Integer.toBinaryString(one), Integer.toBinaryString(two), Integer.toBinaryString(one + two));
-                case "-" -> System.out.printf("%s - %s = %s", Integer.toBinaryString(one), Integer.toBinaryString(two), Integer.toBinaryString(one - two));
                 case "x" -> System.out.printf("%s x %s = %s", Integer.toBinaryString(one), Integer.toBinaryString(two), Integer.toBinaryString(one * two));
-                case "/" -> System.out.printf("%s / %s = %s", Integer.toBinaryString(one), Integer.toBinaryString(two), Integer.toBinaryString(one / two));
+                default -> System.out.println("Unsupported operation");
             }
         } catch (Error e) {
             System.out.print(e.toString());

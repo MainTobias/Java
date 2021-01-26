@@ -1,6 +1,8 @@
 package com.basics.seven;
 
-public class one {
+import java.util.Scanner;
+
+public class One {
     public static void main(String[] args) {
         StringBuilder echo = new StringBuilder();
         StringBuilder reversedEcho = new StringBuilder();

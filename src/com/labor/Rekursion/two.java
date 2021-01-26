@@ -2,7 +2,7 @@ package com.labor.Rekursion;
 
 public class two {
     public static void main(String[] args) {
-        System.out.println(getFibonacci(6));
+        System.out.println(getFibonacci(10));
     }
     static int getFibonacci(int n){
         return getFibonacci(1, 1, n-2);
