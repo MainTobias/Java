@@ -1,7 +1,5 @@
 package com;
 
-import java.util.Arrays;
-
 public class Potion {
     public final Ingredient[] ingredients;
     private int stirred = 0;
