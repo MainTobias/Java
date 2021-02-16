@@ -12,7 +12,11 @@ public class Konto {
 
 
     public Konto(String name, double stand, boolean istGiro) {
-        this.stand = stand;
+        if (!istGiro && stand < 0) {
+            this.stand = 0.0;
+        } else {
+            this.stand = stand;
+        }
         this.name = name;
         this.istGiro = istGiro;
     }
@@ -38,7 +42,7 @@ public class Konto {
         if (betrag == 0) {
             return false;
         } else if (betrag > 0) {
-            if(k1.abheben(betrag)){
+            if (k1.abheben(betrag)) {
                 k2.einzahlen(betrag);
             } else {
                 return false;

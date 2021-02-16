@@ -1,19 +1,61 @@
 package com.euler;
 
-import java.util.Arrays;
 
+import java.util.Arrays;
 
 public class eighteen {
     public static void main(String[] args) {
-        int[][][] test = new int[][][]{{{3}}, {{7, 4}}, {{2, 4, 6}}, {{8, 5, 9, 3}}};
-        greatestPathSum(test);
+        final int[][] triangle1 = TriangleReader.read("C:\\Users\\tobia\\Downloads\\triangle1.txt");
+        System.out.println(greatestPathSum(triangle1));
     }
-    private static void greatestPathSum(int[][][] triangle){
+    public static int greatestPathSum(int[][] triangle) {
         for (int i = triangle.length-2; i >= 0; i--) {
             for (int j = 0; j < triangle[i].length; j++) {
-                triangle[i][j] = add(triangle[i][j][0], triangle[i+1][0]);
+                if (triangle[i+1][j]>triangle[i+1][j+1]) {
+                    triangle[i][j] = triangle[i][j] + triangle[i+1][j];
+                } else {
+                    triangle[i][j] = triangle[i][j] + triangle[i+1][j+1];
+                }
             }
         }
+        return triangle[0][0];
+    }
+}
+    /* second approach
+    public static int[][][] prepare(int[][] triangle) {
+        int[][][] prepared = new int[triangle.length][][];
+        for (int i = 0; i < triangle.length; i++) {
+            prepared[i] = new int[triangle[i].length][];
+            for (int j = 0; j < triangle[i].length; j++) {
+                prepared[i][j] = new int[]{triangle[i][j]};
+            }
+        }
+        return prepared;
+    }
+    public static int greatestPathSum(int[][][] triangle){
+        for (int i = triangle.length-2; i >= 0; i--) {
+            for (int j = 0; j < triangle[i].length; j++) {
+                int biggest = triangle[i][j][0];
+                for (int k = 0; k < triangle[i][j].length; k++) {
+                    if (triangle[i][j][k] > biggest) {
+                        biggest = triangle[i][j][k];
+                    }
+                }
+                triangle[i][j] = new int[]{biggest};
+            }
+            for (int j = 0; j < triangle[i].length; j++) {
+                triangle[i][j] = add(triangle[i][j][0], triangle[i+1][j], triangle[i+1][j+1]);
+            }
+            System.out.println(triangle.length);
+            triangle[i+1] = null;
+        }
+        int biggest = triangle[0][0][0];
+        for (int i = 0; i < triangle[0][0].length; i++) {
+            if (triangle[0][0][i] > biggest) {
+                biggest = triangle[0][0][i];
+            }
+        }
+        return biggest;
     }
     private static int[] add(int increase, int[]... lists) {
         int totalLength = 0;
@@ -29,11 +71,14 @@ public class eighteen {
             } else {
                 subFromLength += lists[x].length;
                 x++;
+                i--;
             }
         }
         return out;
     }
 }
+*/
+
 /*old approach
 public class eighteen {
     public static void main(String[] args) {

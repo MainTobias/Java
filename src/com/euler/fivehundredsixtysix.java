@@ -1,4 +1,66 @@
 package com.euler;
+
+import java.math.BigDecimal;
+
+class fivehundredsixtysix {
+    public static void main(String[] args) {
+        System.out.println(new Sliece(new BigDecimal(190), new BigDecimal(270)).intersects(new BigDecimal("250")));
+    }
+
+    private static long F(long a, long b, long c) {
+        long flips = 0;
+
+        return flips;
+    }
+
+}
+
+class Sliece {
+    public BigDecimal startArm;
+    public BigDecimal endArm;
+
+    public Sliece(BigDecimal startArm, BigDecimal endArm) {
+        if (compare(startArm, "==", endArm))
+            throw new IllegalArgumentException("startArm and endArm cannot be the same.");
+        this.startArm = startArm.remainder(new BigDecimal(360));
+        this.endArm = endArm.remainder(new BigDecimal(360));
+    }
+    public boolean intersects(BigDecimal arm) {
+        return intersects(this, arm);
+    }
+    public static boolean intersects(Sliece s, BigDecimal arm) {
+        arm = arm.remainder(new BigDecimal(360));
+        if (compare(s.startArm, ">", s.endArm)) {
+            return compare(arm, ">=", s.startArm) || compare(arm, "<=", s.endArm);
+        } else {
+            return compare(arm, ">=", s.startArm) && compare(arm, "<=", s.endArm);
+        }
+    }
+
+    private static boolean compare(BigDecimal a, String comparator, BigDecimal b) {
+        int result = a.compareTo(b);
+        switch (comparator) {
+            case ">":
+                return result == 1;
+            case "<":
+                return result == -1;
+            case ">=":
+                return result == 1 || result == 0;
+            case "<=":
+                return result == -1 || result == 0;
+            case "==":
+                return result == 0;
+            case "!=":
+                return result != 0;
+        }
+        throw new IllegalArgumentException("Comparator \"" + comparator + "\" is not supported.");
+    }
+
+    @Override
+    public String toString() {
+        return "From: " + startArm + " to " + endArm;
+    }
+}
 /*
 import java.util.ArrayList;
 import java.util.List;
