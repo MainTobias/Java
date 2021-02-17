@@ -9,7 +9,9 @@ public class LinkedList<E> {
 
     public static void main(String[] args) {
         LinkedList list = new LinkedList();
-        list.insert(-1, "data");
+        list.insert(0, "data1");
+        list.insert(0, "data2");
+        list.insert(1, "data3");
         System.out.println(list);
     }
 
@@ -48,6 +50,7 @@ public class LinkedList<E> {
         }
         return x;
     }
+
     public LinkedList<E> replaceAll(E data, E replacement) {
         ListNode<E> x = first;
         for (int i = 0; i < length; i++) {
@@ -108,8 +111,9 @@ public class LinkedList<E> {
     }
 
     public E pop() {
-        return pop(length-1);
+        return pop(length - 1);
     }
+
     public E pop(int index) {
         ListNode<E> x = getNode(index);
         remove(index);
@@ -153,19 +157,13 @@ public class LinkedList<E> {
             throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + length);
         }
         ListNode<E> x = getNode(index);
-        if (index == length - 1) {
-            last = new ListNode<E>(data, x, null);
-            x.successor = last;
-            x.predecessor.successor = x;
+        ListNode<E> toInsert = new ListNode<E>(data, x.predecessor, x);
+        if (index == 0) {
+            first = toInsert;
         } else {
-            ListNode<E> toInsert = new ListNode<E>(data, x.predecessor, x);
-            if (index == 0) {
-                first = toInsert;
-            } else {
-                x.predecessor.successor = toInsert;
-            }
-            x.predecessor = toInsert;
+            x.predecessor.successor = toInsert;
         }
+        x.predecessor = toInsert;
         length++;
         return this;
     }
@@ -197,6 +195,7 @@ public class LinkedList<E> {
         }
         return sb.append("]").toString();
     }
+
     @Override
     public boolean equals(Object o) {
         if (this == o)
