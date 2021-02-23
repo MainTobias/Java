@@ -1,6 +1,8 @@
 package com;
 
+import java.util.ArrayList;
 import java.util.EmptyStackException;
+import java.util.List;
 import java.util.Random;
 
 public class LinkedStack<E> {
@@ -8,13 +10,12 @@ public class LinkedStack<E> {
     private Node<E> tos;
 
     public void push(E data) {
-        Node<E> x = new Node<>(data, tos);
-        tos = x;
+        tos = new Node<>(data, tos);
         size++;
     }
 
     public E pop() {
-        if (tos == null) throw new EmptyStackException();
+        if (tos == null)return null;// throw new EmptyStackException();
         Node<E> x = tos;
         tos = tos.successor;
         size--;
@@ -39,7 +40,7 @@ public class LinkedStack<E> {
         StringBuilder sb = new StringBuilder("");
         Node<E> x = tos;
         for (int i = 0; i < size; i++) {
-            sb.append(i).append(": ").append(x);
+            sb.append(x).append("\n");
             x = x.successor;
         }
         return sb.toString();
@@ -51,10 +52,18 @@ class LinkedQueue<E> {
     private Node<E> tail;
     private int size;
 
-    public int getSize() {
+    public static void main(String[] args) {
+        LinkedQueue lq = new LinkedQueue();
+        for (int i = 0; i < 3; i++) {
+            lq.add(i);
+        }
+        System.out.println(lq);
+        System.out.println(lq.getNth(0));
+        System.out.println(lq);
+    }
+    public int size() {
         return size;
     }
-
     public boolean isEmpty() {
         return size == 0;
     }
@@ -87,20 +96,64 @@ class LinkedQueue<E> {
         size--;
         return x.data;
     }
+    public E getNth(int n) {
+        if (snout == null) throw new EmptyStackException();
+        if (!(n >= 0 && n < size)) {
+            throw new IndexOutOfBoundsException("Index: " + n + ", Size: " + size);
+        }
+        int i  = 0;
+        Node<E> x = snout;
+        while (i < n) {
+            x = x.successor;
+            i++;
+        }
+        removeNth(n);
+        return x.data;
+    }
+    public E removeNth(int n) {
+        throw new UnsupportedOperationException("TODO");
+        /*
+        if (snout == null) throw new EmptyStackException();
+        if (!(n >= 0 && n < size)) {
+            throw new IndexOutOfBoundsException("Index: " + n + ", Size: " + size);
+        }
+        if (n == 0) {
+            snout = snout.successor;
+            if (size <= 3) {
+                tail = tail.successor;
+            }
+            size--;
+            return snout.data;
+        } else if (n == size-1) {
+            return get();
+        }
+        int i  = 1;
+        Node<E> x = snout.successor;
+        while (i < n) {
+            x = x.successor;
+            i++;
+        }
+
+        size--;
+        return x.data;
+        */
+    }
 
     public E element() {
         return snout != null ? snout.data : null;
     }
-
-    @Override
-    public String toString() {
-        StringBuilder sb = new StringBuilder("Size: " + size + "\n");
+    public List<E> toList(){
+        List<E> l = new ArrayList<E>();
         Node<E> x = snout;
         for (int i = 0; i < size; i++) {
-            sb.append(i).append(": ").append(x).append("\n");
+            l.add(x.data);
             x = x.successor;
         }
-        return sb.toString();
+        return l;
+    }
+    @Override
+    public String toString() {
+        return toList().toString();
     }
 }
 
