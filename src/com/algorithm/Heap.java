@@ -54,7 +54,7 @@ public class Heap {
             } else {
                 break;
             }
-        }
         comparisons += 2;
+        }
     }
 }
