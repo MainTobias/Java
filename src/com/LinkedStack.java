@@ -53,13 +53,19 @@ class LinkedQueue<E> {
     private int size;
 
     public static void main(String[] args) {
-        LinkedQueue lq = new LinkedQueue();
-        for (int i = 0; i < 3; i++) {
-            lq.add(i);
+        LinkedQueue<Integer> queue1 = new LinkedQueue<>();
+        for (int i = 0; i < 6; i++) {
+            queue1.add(i);
         }
-        System.out.println(lq);
-        System.out.println(lq.getNth(0));
-        System.out.println(lq);
+        System.out.println("getNth");
+        System.out.println(4 +" "+ queue1.getNth(4));
+        //assertEquals(5, queue1.getNth(4));
+        System.out.println(queue1.getNth(4));
+        queue1.add(5);
+        System.out.println(5 +" "+ queue1.getNth(4));
+        System.out.println(queue1.getNth(-3));
+        System.out.println(0 +" "+ queue1.getNth(0));
+        System.out.println(1 +" "+ queue1.getNth(0));
     }
     public int size() {
         return size;
@@ -83,11 +89,11 @@ class LinkedQueue<E> {
     }
 
     public E get() {
-        if (tail == null) {
+        if (snout == null) {
             return null;
-        } else if(snout == null){
-            Node<E> x = tail;
-            tail = null;
+        } else if(tail == null){
+            Node<E> x = snout;
+            snout = null;
             size--;
             return x.data;
         }
@@ -101,42 +107,35 @@ class LinkedQueue<E> {
         if (!(n >= 0 && n < size)) {
             throw new IndexOutOfBoundsException("Index: " + n + ", Size: " + size);
         }
+        if (n == 0) {
+            Node<E> x = snout;
+            snout = snout.successor;
+            size--;
+            return x.data;
+        }
+        if (n == size-1) {
+            int i  = 0;
+            Node<E> x = snout;
+            while (i+1 < n) {
+                x = x.successor;
+                i++;
+            }
+            x.successor = null;
+            Node<E> oldTail = tail;
+            tail = x;
+            size--;
+            return oldTail.data;
+        }
         int i  = 0;
         Node<E> x = snout;
-        while (i < n) {
+        while (i+1 < n) {
             x = x.successor;
             i++;
         }
-        removeNth(n);
-        return x.data;
-    }
-    public E removeNth(int n) {
-        throw new UnsupportedOperationException("TODO");
-        /*
-        if (snout == null) throw new EmptyStackException();
-        if (!(n >= 0 && n < size)) {
-            throw new IndexOutOfBoundsException("Index: " + n + ", Size: " + size);
-        }
-        if (n == 0) {
-            snout = snout.successor;
-            if (size <= 3) {
-                tail = tail.successor;
-            }
-            size--;
-            return snout.data;
-        } else if (n == size-1) {
-            return get();
-        }
-        int i  = 1;
-        Node<E> x = snout.successor;
-        while (i < n) {
-            x = x.successor;
-            i++;
-        }
-
+        Node<E> el = x.successor;
+        x.successor = x.successor.successor;
         size--;
-        return x.data;
-        */
+        return el.data;
     }
 
     public E element() {

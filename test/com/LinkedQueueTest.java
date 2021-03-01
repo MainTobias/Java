@@ -97,11 +97,19 @@ public class LinkedQueueTest {
     public void testGetNth() {
         System.out.println("getNth");
         assertEquals(4, queue1.getNth(4));
-        //assertEquals(5, queue1.getNth(4));
-        assertNull(queue1.getNth(4));
+        assertEquals(5, queue1.getNth(4));
+        try {
+            assertNull(queue1.getNth(4));
+        } catch (IndexOutOfBoundsException e) {
+            System.out.println("Okay");
+        }
         queue1.add(5);
         assertEquals(5, queue1.getNth(4));
-        assertNull(queue1.getNth(-3));
+        try {
+            assertNull(queue1.getNth(-3));
+        } catch (IndexOutOfBoundsException e) {
+            System.out.println("Okay");
+        }
         assertEquals(0, queue1.getNth(0));
         assertEquals(1, queue1.getNth(0));
         assertEquals("Zwei", queue2.getNth(1));
