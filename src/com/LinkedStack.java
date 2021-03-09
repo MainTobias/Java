@@ -1,5 +1,6 @@
 package com;
 
+import javax.swing.*;
 import java.util.ArrayList;
 import java.util.EmptyStackException;
 import java.util.List;
@@ -15,7 +16,7 @@ public class LinkedStack<E> {
     }
 
     public E pop() {
-        if (tos == null)return null;// throw new EmptyStackException();
+        if (tos == null) return null;// throw new EmptyStackException();
         Node<E> x = tos;
         tos = tos.successor;
         size--;
@@ -37,7 +38,7 @@ public class LinkedStack<E> {
 
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder("");
+        StringBuilder sb = new StringBuilder();
         Node<E> x = tos;
         for (int i = 0; i < size; i++) {
             sb.append(x).append("\n");
@@ -53,32 +54,22 @@ class LinkedQueue<E> {
     private int size;
 
     public static void main(String[] args) {
-        LinkedQueue<Integer> queue1 = new LinkedQueue<>();
-        for (int i = 0; i < 6; i++) {
-            queue1.add(i);
-        }
-        System.out.println("getNth");
-        System.out.println(4 +" "+ queue1.getNth(4));
-        //assertEquals(5, queue1.getNth(4));
-        System.out.println(queue1.getNth(4));
-        queue1.add(5);
-        System.out.println(5 +" "+ queue1.getNth(4));
-        System.out.println(queue1.getNth(-3));
-        System.out.println(0 +" "+ queue1.getNth(0));
-        System.out.println(1 +" "+ queue1.getNth(0));
+        String d = Datei.oeffne("test.txt");
     }
+
     public int size() {
         return size;
     }
+
     public boolean isEmpty() {
         return size == 0;
     }
 
     public void add(E data) {
-        Node<E> x = new Node<E>(data, null);
+        Node<E> x = new Node<>(data, null);
         if (snout == null) {
             snout = x;
-        } else if(tail == null) {
+        } else if (tail == null) {
             tail = x;
             snout.successor = tail;
         } else {
@@ -91,7 +82,7 @@ class LinkedQueue<E> {
     public E get() {
         if (snout == null) {
             return null;
-        } else if(tail == null){
+        } else if (tail == null) {
             Node<E> x = snout;
             snout = null;
             size--;
@@ -102,6 +93,7 @@ class LinkedQueue<E> {
         size--;
         return x.data;
     }
+
     public E getNth(int n) {
         if (snout == null) throw new EmptyStackException();
         if (!(n >= 0 && n < size)) {
@@ -113,10 +105,10 @@ class LinkedQueue<E> {
             size--;
             return x.data;
         }
-        if (n == size-1) {
-            int i  = 0;
+        if (n == size - 1) {
+            int i = 0;
             Node<E> x = snout;
-            while (i+1 < n) {
+            while (i + 1 < n) {
                 x = x.successor;
                 i++;
             }
@@ -126,9 +118,9 @@ class LinkedQueue<E> {
             size--;
             return oldTail.data;
         }
-        int i  = 0;
+        int i = 0;
         Node<E> x = snout;
-        while (i+1 < n) {
+        while (i + 1 < n) {
             x = x.successor;
             i++;
         }
@@ -141,8 +133,9 @@ class LinkedQueue<E> {
     public E element() {
         return snout != null ? snout.data : null;
     }
-    public List<E> toList(){
-        List<E> l = new ArrayList<E>();
+
+    public List<E> toList() {
+        List<E> l = new ArrayList<>();
         Node<E> x = snout;
         for (int i = 0; i < size; i++) {
             l.add(x.data);
@@ -150,6 +143,7 @@ class LinkedQueue<E> {
         }
         return l;
     }
+
     @Override
     public String toString() {
         return toList().toString();
@@ -177,12 +171,13 @@ class Node<E> {
 
 class Datei {
 
-    public static String öfffne(String pfad) {
+    public static String oeffne(String pfad) {
         if (pfad.strip().equals("test.txt")) return "A\nB\nC";
         return pfad;
     }
 }
-class Order{
+
+class Order {
     public static String genString() {
         int leftLimit = 97; // letter 'a'
         int rightLimit = 122; // letter 'z'
@@ -196,6 +191,7 @@ class Order{
 
         return generatedString;
     }
+
     public static void main(String[] args) {
         int len = new Random().nextInt(1000);
         LinkedQueue<Order> orders = new LinkedQueue<>();
@@ -208,6 +204,7 @@ class Order{
             System.out.println(orders);
         }
     }
+
     final String customer;
     final int quantity;
 

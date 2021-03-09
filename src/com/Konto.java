@@ -53,19 +53,19 @@ public class Konto {
         return true;
     }
 
-    public boolean abheben(double i) {
-        if (stand - i < 0 && !istGiro) {
+    public boolean abheben(double betrag) {
+        if (stand - betrag < 0 && !istGiro) {
             System.out.printf("Konto \"%s\" nicht gedeckt\n", name);
             return false;
         }
-        stand -= i;
+        stand -= betrag;
         transaktionen++;
         return true;
     }
 
-    public boolean einzahlen(double i) {
-        if (i <= 0.0) return false;
-        stand += i;
+    public boolean einzahlen(double betrag) {
+        if (betrag <= 0.0) return false;
+        stand += betrag;
         transaktionen++;
         return true;
     }
