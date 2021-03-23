@@ -38,9 +38,11 @@ public class Fahrrad {
 
     public void lenke(int delta) {
         if (delta > 0 && richtung + delta > 45) {
+            delta = 45;
             System.out.println("Delta " + delta + " für Richtung " + richtung + " zu groß");
             return;
         } else if (delta < 0 && richtung + delta > -45) {
+            delta = -45;
             System.out.println("Delta " + delta + " für Richtung " + richtung + " zu klein");
             return;
         }

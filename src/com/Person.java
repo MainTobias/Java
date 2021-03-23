@@ -97,7 +97,7 @@ class Student extends Person {
         print(filterNachname(students, "a"));
     }
 
-    Student(String nachname, String vorname, int matrikelnummer) {
+    public Student(String nachname, String vorname, int matrikelnummer) {
         super(nachname, vorname);
         if (matrikelnummer < 0) {
             throw new IllegalArgumentException("Martikelnummmer muss größer gleich 0 sein.");
