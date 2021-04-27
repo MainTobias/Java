@@ -24,5 +24,6 @@ class ReciprocalTest {
         assertEquals(1.0 / 9 ,r.nth_Element());
         assertThrows(IllegalArgumentException.class, () -> new Reciprocal(0));
         assertThrows(IllegalArgumentException.class, () -> new Reciprocal(-1));
+        System.out.println(new Reciprocal(4));
     }
 }

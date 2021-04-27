@@ -26,5 +26,6 @@ class FibonacciTest {
         assertEquals(3, new Fibonacci(4).nth_Element());
         assertThrows(IllegalArgumentException.class, () -> new Fibonacci(0));
         assertThrows(IllegalArgumentException.class, () -> new Fibonacci(-1));
+        System.out.println(new Fibonacci(4));
     }
 }

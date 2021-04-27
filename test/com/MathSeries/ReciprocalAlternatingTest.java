@@ -25,5 +25,7 @@ class ReciprocalAlternatingTest {
         assertEquals(-1.0 / 7 , new ReciprocalAlternating(4).nth_Element());
         assertThrows(IllegalArgumentException.class, () -> new ReciprocalAlternating(0));
         assertThrows(IllegalArgumentException.class, () -> new ReciprocalAlternating(-1));
+        System.out.println(new ReciprocalAlternating(7));
+
     }
 }
