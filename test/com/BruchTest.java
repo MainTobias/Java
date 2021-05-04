@@ -80,7 +80,7 @@ class BruchTest {
         public void noArgs_0() {
             Bruch b = new Bruch();
 
-            assertEquals(0, b.nominator);
+            assertEquals(0, b.numerator);
             assertEquals(1, b.denominator);
         }
 
@@ -88,7 +88,7 @@ class BruchTest {
         public void zähler_nenner1() {
             Bruch b = new Bruch(3);
 
-            assertEquals(3, b.nominator);
+            assertEquals(3, b.numerator);
             assertEquals(1, b.denominator);
         }
 
@@ -96,7 +96,7 @@ class BruchTest {
         public void zählerNenner_nennerNot0_validBruch() {
             Bruch b = new Bruch(3, 6);
 
-            assertEquals(1, b.nominator);
+            assertEquals(1, b.numerator);
             assertEquals(2, b.denominator);
         }
 
@@ -104,7 +104,7 @@ class BruchTest {
         public void zählerNenner_zählerPositiveNennerNegative_zählerNegativeNennerPositive() {
             Bruch b = new Bruch(3, -2);
 
-            assertEquals(-3, b.nominator);
+            assertEquals(-3, b.numerator);
             assertEquals(2, b.denominator);
         }
 
@@ -112,7 +112,7 @@ class BruchTest {
         public void zählerNenner_bothNegative_bothPositive() {
             Bruch b = new Bruch(-3, -2);
 
-            assertEquals(3, b.nominator);
+            assertEquals(3, b.numerator);
             assertEquals(2, b.denominator);
         }
 
@@ -120,7 +120,7 @@ class BruchTest {
         public void zählerNenner_zähler0nennerNot0_nenner1() {
             Bruch b = new Bruch(0, 3);
 
-            assertEquals(0, b.nominator);
+            assertEquals(0, b.numerator);
             assertEquals(1, b.denominator);
         }
 
@@ -128,7 +128,7 @@ class BruchTest {
         public void double_result() {
             Bruch b = new Bruch(-12.45);
 
-            assertEquals(-249, b.nominator);
+            assertEquals(-249, b.numerator);
             assertEquals(20, b.denominator);
         }
 
@@ -146,7 +146,7 @@ class BruchTest {
         public void string_int_nenner1(String zähler, int expectedZähler) {
             Bruch b = new Bruch(zähler);
 
-            assertEquals(expectedZähler, b.nominator);
+            assertEquals(expectedZähler, b.numerator);
             assertEquals(1, b.denominator);
         }
 
@@ -158,7 +158,7 @@ class BruchTest {
         public void string_double_objectCreated(String bruch, int expectedZähler, int expectedNenner) {
             Bruch b = new Bruch(bruch);
 
-            assertEquals(expectedZähler, b.nominator);
+            assertEquals(expectedZähler, b.numerator);
             assertEquals(expectedNenner, b.denominator);
         }
 
@@ -170,7 +170,7 @@ class BruchTest {
         public void string_fraction_objectCreated(String bruch, int expectedZähler, int expectedNenner) {
             Bruch b = new Bruch(bruch);
 
-            assertEquals(expectedZähler, b.nominator);
+            assertEquals(expectedZähler, b.numerator);
             assertEquals(expectedNenner, b.denominator);
         }
 
@@ -178,7 +178,7 @@ class BruchTest {
         public void string_zähler0nennerNot0_nenner1() {
             Bruch b = new Bruch("0/3");
 
-            assertEquals(0, b.nominator);
+            assertEquals(0, b.numerator);
             assertEquals(1, b.denominator);
         }
 
@@ -186,7 +186,7 @@ class BruchTest {
         public void string_leadingPoint_valid() {
             Bruch b = new Bruch(".1");
 
-            assertEquals(1, b.nominator);
+            assertEquals(1, b.numerator);
             assertEquals(10, b.denominator);
         }
 
@@ -213,7 +213,7 @@ class BruchTest {
 
             b.mult(new Bruch(3, 7));
 
-            assertEquals(2, b.nominator);
+            assertEquals(2, b.numerator);
             assertEquals(3, b.denominator);
         }
 
@@ -224,7 +224,7 @@ class BruchTest {
 
             Bruch result = b.mult(factor);
 
-            assertEquals(12, result.nominator);
+            assertEquals(12, result.numerator);
             assertEquals(35, result.denominator);
         }
     }
@@ -238,7 +238,7 @@ class BruchTest {
 
             b.multThis(null);
 
-            assertEquals(1, b.nominator);
+            assertEquals(1, b.numerator);
             assertEquals(1, b.denominator);
         }
 
@@ -249,7 +249,7 @@ class BruchTest {
 
             b.subThis(subtrahend);
 
-            assertEquals(13, b.nominator);
+            assertEquals(13, b.numerator);
             assertEquals(35, b.denominator);
         }
     }
@@ -279,7 +279,7 @@ class BruchTest {
 
             b.div(new Bruch(3, 7));
 
-            assertEquals(2, b.nominator);
+            assertEquals(2, b.numerator);
             assertEquals(3, b.denominator);
         }
 
@@ -291,7 +291,7 @@ class BruchTest {
 
             Bruch result = b.div(divisor);
 
-            assertEquals(21, result.nominator);
+            assertEquals(21, result.numerator);
             assertEquals(10, result.denominator);
         }
     }
@@ -305,7 +305,7 @@ class BruchTest {
 
             b.divThis(null);
 
-            assertEquals(1, b.nominator);
+            assertEquals(1, b.numerator);
             assertEquals(1, b.denominator);
         }
 
@@ -325,7 +325,7 @@ class BruchTest {
 
             b.divThis(divisor);
 
-            assertEquals(21, b.nominator);
+            assertEquals(21, b.numerator);
             assertEquals(10, b.denominator);
         }
     }
@@ -339,7 +339,7 @@ class BruchTest {
 
             b.hoch(3);
 
-            assertEquals(2, b.nominator);
+            assertEquals(2, b.numerator);
             assertEquals(3, b.denominator);
         }
 
@@ -349,7 +349,7 @@ class BruchTest {
 
             Bruch result = b.hoch(3);
 
-            assertEquals(27, result.nominator);
+            assertEquals(27, result.numerator);
             assertEquals(125, result.denominator);
         }
 
@@ -370,7 +370,7 @@ class BruchTest {
 
             b.hochThis(-3);
 
-            assertEquals(125, b.nominator);
+            assertEquals(125, b.numerator);
             assertEquals(27, b.denominator);
         }
 
@@ -451,7 +451,7 @@ class BruchTest {
 
             b.subThis(null);
 
-            assertEquals(1, b.nominator);
+            assertEquals(1, b.numerator);
             assertEquals(1, b.denominator);
         }
 
@@ -462,7 +462,7 @@ class BruchTest {
 
             b.subThis(subtrahend);
 
-            assertEquals(13, b.nominator);
+            assertEquals(13, b.numerator);
             assertEquals(35, b.denominator);
         }
     }
@@ -483,7 +483,7 @@ class BruchTest {
 
             b.sub(new Bruch(3, 7));
 
-            assertEquals(2, b.nominator);
+            assertEquals(2, b.numerator);
             assertEquals(3, b.denominator);
         }
 
@@ -494,7 +494,7 @@ class BruchTest {
 
             Bruch result = b.sub(subtrahend);
 
-            assertEquals(13, result.nominator);
+            assertEquals(13, result.numerator);
             assertEquals(35, result.denominator);
         }
     }
@@ -508,7 +508,7 @@ class BruchTest {
 
             b.addThis(null);
 
-            assertEquals(1, b.nominator);
+            assertEquals(1, b.numerator);
             assertEquals(1, b.denominator);
         }
 
@@ -519,7 +519,7 @@ class BruchTest {
 
             b.addThis(summand);
 
-            assertEquals(7, b.nominator);
+            assertEquals(7, b.numerator);
             assertEquals(8, b.denominator);
         }
     }
@@ -540,7 +540,7 @@ class BruchTest {
 
             b.add(new Bruch(3, 7));
 
-            assertEquals(2, b.nominator);
+            assertEquals(2, b.numerator);
             assertEquals(3, b.denominator);
         }
 
@@ -551,7 +551,7 @@ class BruchTest {
 
             Bruch result = b.add(summand);
 
-            assertEquals(7, result.nominator);
+            assertEquals(7, result.numerator);
             assertEquals(8, result.denominator);
         }
     }
