@@ -7,6 +7,9 @@ public class Bicycle extends Vehicle{
      * @param brand  the brad
      * @param wheels the number of wheels on the vehicle. Must be positive.
      */
+    public Bicycle(){
+        super("", 0);
+    }
     public Bicycle(String brand, int wheels) {
         super(brand, wheels);
         if (!(wheels == 2 || wheels == 3)) throw new IllegalArgumentException();

@@ -31,28 +31,14 @@ public class Datum {
      */
     public Datum(String dateString) {
         int[] dates = Arrays.stream(dateString.split("\\.")).mapToInt(Integer::parseInt).toArray();
+        if (dates.length != 3) throw new IllegalArgumentException();
         tag = dates[0];
         monat = dates[1];
         jahr = dates[2];
         if (!(tag >= 1 && tag <= 31 && monat >= 1 && monat <= 12)) {
             throw new IllegalArgumentException();
         }
-    }
-    /**
-     * Erzeugt eine Datumsinstanz, die t Tage nach dem 1.1.1900 liegt.
-     *
-     * @param tage die Tage seit dem 1.1.1900; muss >= 0 sein
-     */
-    public static boolean isLeapYear(int year) {
-        if (year % 4 != 0) {
-            return false;
-        } else if (year % 400 == 0) {
-            return true;
-        } else if (year % 100 == 0) {
-            return false;
-        } else {
-            return true;
-        }
+        if (jahr < 1900) throw new IllegalArgumentException();
     }
     public static int daysIn(int month, boolean isLeap) {
         if (month == 1 || month == 3 || month == 5 || month == 7 || month == 8 || month == 10 || month == 12) {
@@ -66,24 +52,18 @@ public class Datum {
         }
         throw new IllegalArgumentException("Month must be between 1 and 12");
     }
+    /**
+     * Erzeugt eine Datumsinstanz, die t Tage nach dem 1.1.1900 liegt.
+     *
+     * @param tage die Tage seit dem 1.1.1900; muss >= 0 sein
+     */
 
     public Datum(int tage) {
         tag = 1;
         monat = 1;
         jahr = 1900;
-        while (tage >= 365) {
-            if (isLeapYear(jahr)) {
-                if (tage >= 366) {
-                    tage -= 366;
-                    jahr++;
-                } else {
-                    break;
-                }
-            }
-            tage -= 365;
-            jahr++;
-        }
-        while (tage >= 28) afasf;
+        if (tage < 0) throw new IllegalArgumentException();
+        addiereTage(tage);
     }
 
     /**
@@ -94,7 +74,13 @@ public class Datum {
      * @param jahr  das Jahr, 1900 - 3000
      */
     public Datum(int tag, int monat, int jahr) {
-        throw new UnsupportedOperationException("TODO");
+        if (!(tag >= 1 && tag <= daysIn(monat, isSchaltjahr(jahr)) && monat >= 1 && monat <= 12)) {
+            throw new IllegalArgumentException();
+        }
+        if (jahr < 1900) throw new IllegalArgumentException();
+        this.tag = tag;
+        this.monat = monat;
+        this.jahr = jahr;
     }
 
     /**
@@ -106,7 +92,29 @@ public class Datum {
      * positiv wenn <code>d2</code> nach <code>d1</code> liegt, sonst negativ
      */
     public static int tageZwischen(Datum d1, Datum d2) {
-        throw new UnsupportedOperationException("TODO");
+        int tage = 0;
+        if (d1.compareTo(d2) == 0) {
+            return 0;
+        }
+        if (d1.compareTo(d2) == 1) {
+            Datum dTemp = d1;
+            d1 = d2;
+            d2 = dTemp;
+        }
+        //while d1 < d2
+        while (d1.compareTo(d2) == -1){
+            tage++;
+            d1.tag++;
+            if (d1.tag > daysIn(d1.monat, isSchaltjahr(d1.jahr))) {
+                d1.tag = 1;
+                d1.monat++;
+                if (d1.monat == 13) {
+                    d1.jahr++;
+                    d1.monat = 1;
+                }
+            }
+        }
+        return tage;
     }
 
     /**
@@ -116,7 +124,15 @@ public class Datum {
      * @return <code>true</code>, wenn <code>jahr</code> ein Schaltjahr ist, <code>false</code> sonst
      */
     public static boolean isSchaltjahr(int jahr) {
-        throw new UnsupportedOperationException("TODO");
+        if (jahr % 4 != 0) {
+            return false;
+        } else if (jahr % 400 == 0) {
+            return true;
+        } else if (jahr % 100 == 0) {
+            return false;
+        } else {
+            return true;
+        }
     }
 
     @Override
@@ -148,7 +164,43 @@ public class Datum {
      * @param t die Tage, um die dieses Datum erhöht (t > 0) bzw. vermindert (t < 0) wird
      */
     public void addiereTage(int t) {
-        throw new UnsupportedOperationException("TODO");
+        while (t >= 365) {
+            if (isSchaltjahr(jahr)) {
+                if (t >= 366) {
+                    t -= 366;
+                    jahr++;
+                } else {
+                    break;
+                }
+            }
+            t -= 365;
+            jahr++;
+        }
+        while (t >= 28) {
+            int mTage = daysIn(monat, isSchaltjahr(jahr));
+            if (mTage >= t) {
+                t -= mTage;
+                monat++;
+                if (monat == 13) {
+                    jahr++;
+                    monat = 1;
+                }
+            } else {
+                break;
+            }
+        }
+        while (t > 0) {
+            tag++;
+            t--;
+            if (t > daysIn(monat, isSchaltjahr(jahr))) {
+                tag = 1;
+                monat++;
+                if (monat == 13) {
+                    jahr++;
+                    monat = 1;
+                }
+            }
+        }
     }
 
     /**
@@ -157,7 +209,8 @@ public class Datum {
      * @return die Nummer des Wochentages im Bereich von 0(Montag) bis 6(Sonntag)
      */
     public int wochentagNummer() {
-        throw new UnsupportedOperationException("TODO");
+        int a = jahr-1;
+        return (a + a/4 -a/100 + a/400 + tageZwischen(new Datum(1, 1, jahr), this)) + 6 % 7;
     }
 
     /**
@@ -166,7 +219,16 @@ public class Datum {
      * @return den Wochentag als String
      */
     public String wochentag() {
-        throw new UnsupportedOperationException("TODO");
+        return switch (wochentagNummer()) {
+            case 0 -> "Montag";
+            case 1 -> "Dienstag";
+            case 2 -> "Mittwoch";
+            case 3 -> "Donnerstag";
+            case 4 -> "Freitag";
+            case 5 -> "Samstag";
+            case 6 -> "Sonntag";
+            default -> null;
+        };
     }
 
     /**
@@ -177,7 +239,13 @@ public class Datum {
      * 0 bei gleichem Datum
      */
     public int compareTo(Datum d) {
-        throw new UnsupportedOperationException("TODO");
+        if (d.tag == tag && d.monat == monat && d.jahr == jahr) {
+            return 0;
+        }
+        if ((jahr > d.jahr) || (jahr == d.jahr && monat > d.monat) || (jahr == d.jahr && monat == d.monat && tag > d.tag)) {
+            return 1;
+        }
+        return -1;
     }
 
     /**
@@ -188,7 +256,7 @@ public class Datum {
      */
     @Override
     public String toString() {
-        throw new UnsupportedOperationException("TODO");
+        return toString(Datum.FORMAT_NORMAL);
     }
 
     /**
@@ -202,6 +270,12 @@ public class Datum {
      * <code>Datum.FORMAT_US</code>
      */
     public String toString(int format) {
-        throw new UnsupportedOperationException("TODO");
+        return switch (format) {
+            case Datum.FORMAT_SHORT -> String.format("%.2d.%.2d.%.2d", tag, monat, jahr);
+            case Datum.FORMAT_NORMAL -> String.format("%.2d.%.2d.%d", tag, monat, jahr);
+            case Datum.FORMAT_LONG -> String.format("%.2d.%.2d %d, %s", tag, monat, jahr, wochentag());
+            case Datum.FORMAT_US -> String.format("%d/%.2d/%.2d", jahr, tag, monat);
+            default -> null;
+        };
     }
 }

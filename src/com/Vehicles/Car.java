@@ -1,14 +1,17 @@
 package com.Vehicles;
 
 public class Car extends Vehicle implements Motorized{
-    boolean motorIsRunning;
-    double power;
+    private boolean motorIsRunning;
+    private double power;
     /**
      * Creates a new car.
      *
      * @param brand  the brad
      * @param wheels the number of wheels on the vehicle. Must be positive.
      */
+    public Car(){
+        super("", 0);
+    }
     public Car(String brand, double power, boolean started) {
         super(brand, 4);
         motorIsRunning = started;

@@ -1,7 +1,6 @@
 package com.Vehicles;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
@@ -54,11 +53,11 @@ public abstract class Vehicle {
     private static Vehicle[] getStartedCars(Vehicle[] vehicles) {
         List<Vehicle> vehicleList = new ArrayList<>();
         for (int i = 0; i < vehicles.length; i++) {
-            if (vehicles[i] instanceof Motorized && ((Motorized) vehicles[i]).isStarted()) {
+            if (vehicles[i] instanceof Car && ((Motorized) vehicles[i]).isStarted()) {
                 vehicleList.add(vehicles[i]);
             }
         }
-        return (Vehicle[]) vehicleList.toArray();
+        return vehicleList.toArray(new Vehicle[0]);
     }
 
     /**

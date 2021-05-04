@@ -1,8 +1,11 @@
 package com.Vehicles;
 
 public class Motorcycle extends Vehicle implements Motorized{
-    boolean motorIsRunning;
-    double power;
+    private boolean motorIsRunning;
+    private double power;
+    public Motorcycle(){
+        super("", 0);
+    }
     /**
      * Creates a new motorcycle.
      *

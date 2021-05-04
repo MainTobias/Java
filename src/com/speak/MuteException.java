@@ -1,7 +1,7 @@
 package com.speak;
 
 public class MuteException extends Exception {
-    Person p;
+    private Person p;
 
     public MuteException(Person p, String errorMessage) {
         super(errorMessage);
