@@ -35,11 +35,12 @@ public class Datum {
         tag = dates[0];
         monat = dates[1];
         jahr = dates[2];
-        if (!(tag >= 1 && tag <= 31 && monat >= 1 && monat <= 12)) {
+        if (!(monat >= 1 && monat <= 12 && tag >= 1 && tag <= daysIn(monat, isSchaltjahr(jahr)))) {
             throw new IllegalArgumentException();
         }
         if (jahr < 1900) throw new IllegalArgumentException();
     }
+
     public static int daysIn(int month, boolean isLeap) {
         if (month == 1 || month == 3 || month == 5 || month == 7 || month == 8 || month == 10 || month == 12) {
             return 31;
@@ -52,6 +53,7 @@ public class Datum {
         }
         throw new IllegalArgumentException("Month must be between 1 and 12");
     }
+
     /**
      * Erzeugt eine Datumsinstanz, die t Tage nach dem 1.1.1900 liegt.
      *
@@ -93,16 +95,18 @@ public class Datum {
      */
     public static int tageZwischen(Datum d1, Datum d2) {
         int tage = 0;
+        boolean switched = false;
         if (d1.compareTo(d2) == 0) {
             return 0;
         }
         if (d1.compareTo(d2) == 1) {
+            switched = true;
             Datum dTemp = d1;
             d1 = d2;
             d2 = dTemp;
         }
         //while d1 < d2
-        while (d1.compareTo(d2) == -1){
+        while (d1.compareTo(d2) == -1) {
             tage++;
             d1.tag++;
             if (d1.tag > daysIn(d1.monat, isSchaltjahr(d1.jahr))) {
@@ -114,7 +118,7 @@ public class Datum {
                 }
             }
         }
-        return tage;
+        return switched ? -tage : tage;
     }
 
     /**
@@ -153,7 +157,21 @@ public class Datum {
      * @return den Monatsnamen
      */
     public String getMonatAsString() {
-        throw new UnsupportedOperationException("TODO");
+        return switch (this.monat) {
+            case 1 -> "Januar";
+            case 2 -> "Februar";
+            case 3 -> "März";
+            case 4 -> "April";
+            case 5 -> "Mai";
+            case 6 -> "Juni";
+            case 7 -> "Juli";
+            case 8 -> "August";
+            case 9 -> "September";
+            case 10 -> "Oktober";
+            case 11 -> "November";
+            case 12 -> "Dezember";
+            default -> null;
+        };
     }
 
     /**
@@ -164,35 +182,21 @@ public class Datum {
      * @param t die Tage, um die dieses Datum erhöht (t > 0) bzw. vermindert (t < 0) wird
      */
     public void addiereTage(int t) {
-        while (t >= 365) {
-            if (isSchaltjahr(jahr)) {
-                if (t >= 366) {
-                    t -= 366;
-                    jahr++;
-                } else {
-                    break;
-                }
-            }
-            t -= 365;
-            jahr++;
-        }
-        while (t >= 28) {
-            int mTage = daysIn(monat, isSchaltjahr(jahr));
-            if (mTage >= t) {
-                t -= mTage;
-                monat++;
-                if (monat == 13) {
-                    jahr++;
-                    monat = 1;
-                }
+        if (t < 0) {
+            Datum d = new Datum(-t);
+            if (d.equals(this)) {
+                tag = 1;
+                monat = 1;
+                jahr = 1900;
             } else {
-                break;
+                throw new IllegalArgumentException();
             }
         }
+
         while (t > 0) {
             tag++;
             t--;
-            if (t > daysIn(monat, isSchaltjahr(jahr))) {
+            if (tag > daysIn(monat, isSchaltjahr(jahr))) {
                 tag = 1;
                 monat++;
                 if (monat == 13) {
@@ -209,8 +213,8 @@ public class Datum {
      * @return die Nummer des Wochentages im Bereich von 0(Montag) bis 6(Sonntag)
      */
     public int wochentagNummer() {
-        int a = jahr-1;
-        return (a + a/4 -a/100 + a/400 + tageZwischen(new Datum(1, 1, jahr), this)) + 6 % 7;
+        int a = jahr - 1;
+        return (a + a / 4 - a / 100 + a / 400 + tageZwischen(new Datum(1, 1, jahr), this)) % 7;
     }
 
     /**
@@ -270,11 +274,12 @@ public class Datum {
      * <code>Datum.FORMAT_US</code>
      */
     public String toString(int format) {
+        if (!(format >= 0 && format <= 3)) throw new IllegalArgumentException();
         return switch (format) {
-            case Datum.FORMAT_SHORT -> String.format("%.2d.%.2d.%.2d", tag, monat, jahr);
-            case Datum.FORMAT_NORMAL -> String.format("%.2d.%.2d.%d", tag, monat, jahr);
-            case Datum.FORMAT_LONG -> String.format("%.2d.%.2d %d, %s", tag, monat, jahr, wochentag());
-            case Datum.FORMAT_US -> String.format("%d/%.2d/%.2d", jahr, tag, monat);
+            case Datum.FORMAT_SHORT -> String.format("%d.%02d.%02d", tag, monat, jahr % 100);
+            case Datum.FORMAT_NORMAL -> String.format("%02d.%02d.%d", tag, monat, jahr);
+            case Datum.FORMAT_LONG -> String.format("%d.%s %d, %s", tag, getMonatAsString(), jahr, wochentag());
+            case Datum.FORMAT_US -> String.format("%d/%02d/%02d", jahr, tag, monat);
             default -> null;
         };
     }
