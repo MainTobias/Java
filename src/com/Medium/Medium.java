@@ -64,6 +64,7 @@ public abstract class Medium {
                     }
                 }
             }
+            br.close();
             return ms.toArray(new Medium[0]);
         } catch (IOException ioe) {
             System.out.println("Kann die Datei " + filename + " nicht lesen!");
@@ -95,7 +96,6 @@ public abstract class Medium {
             for (int i = 0; i < n - 1; i++)
                 for (int j = 0; j < n - i - 1; j++)
                     if (feld[j].compareTo(feld[j + 1]) > 0) {
-                        // swap arr[j+1] and arr[j]
                         Medium temp = feld[j];
                         feld[j] = feld[j + 1];
                         feld[j + 1] = temp;

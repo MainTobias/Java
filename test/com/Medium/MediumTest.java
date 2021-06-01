@@ -16,7 +16,7 @@ class MediumTest {
     void setUp() {
 
         try {
-            feld = Medium.readFile("C:\\temp\\media.csv");
+            feld = Medium.readFile("resources/media.csv");
         } catch (IOException e) {
             System.out.println("Problem: " + e);
         }
