@@ -1,7 +1,18 @@
 package com.PlayerColors;
 
 public enum Color {
-    Blue(new RGBColors(0, 0, 255)), Green(new RGBColors(0, 255, 0)), Orange(new RGBColors(180, 100, 50)), Red(new RGBColors(255, 0, 0));
+    Blue(new RGBColors(0, 0, 255)),
+    Green(new RGBColors(0, 255, 0)),
+    Orange("#FF5733"),
+    Red(new RGBColors(255, 0, 0)),
+    Yellow("#FFB433"),
+    LightGreen("#54FF33"),
+    DarkBlue("#050951"),
+    Rose("#F90BF9"),
+    Violet("#530054"),
+    StrongRed("#660000"),
+    QRX(new RGBColors(255,155,55)),
+    ;
 
     private final RGBColors rgb;
 
@@ -19,11 +30,6 @@ public enum Color {
 }
 
 class RGBColors {
-    public static void main(String[] args) {
-        RGBColors rgb = new RGBColors("#ff00ff");
-        System.out.println(rgb);
-    }
-
     private final String hex;
     private final int r;
     private final int g;
@@ -66,5 +72,21 @@ class RGBColors {
     }
     public int compareToo(RGBColors rgb) {
         return Integer.compare(Integer.decode(hex), Integer.decode(rgb.hex));
+    }
+
+    public int getR() {
+        return r;
+    }
+
+    public int getG() {
+        return g;
+    }
+
+    public int getB() {
+        return b;
+    }
+
+    public String getHex() {
+        return hex;
     }
 }
